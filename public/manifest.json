@@ -1,0 +1,21 @@
+{
+  "name": "EdukaPromo - Katalog Promo Cabang",
+  "short_name": "EdukaPromo",
+  "description": "Katalog promo cabang Eduka aktif untuk tim sales.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4c1d95",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

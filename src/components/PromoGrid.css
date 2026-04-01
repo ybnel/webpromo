@@ -1,25 +1,23 @@
 .promo-grid {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
   padding: 1rem;
-  padding-bottom: 2rem; /* For box shadow hover effect */
   max-width: 1200px;
   margin: 0 auto;
-  scrollbar-width: none; /* Firefox */
-}
-
-.promo-grid::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
 }
 
 @media (min-width: 640px) {
   .promo-grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     padding: 2rem 1.5rem;
-    padding-bottom: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .promo-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

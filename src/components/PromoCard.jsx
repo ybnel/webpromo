@@ -20,11 +20,6 @@ const PromoCard = ({ promo, onClick }) => {
       </div>
       <div className="promo-info">
         <h3>{promo.title}</h3>
-        <p className="promo-desc">{promo.description}</p>
-        <div className="promo-footer">
-          <span className="validity">Valid until: {endDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-          <button className="promo-btn">Show T&C</button>
-        </div>
       </div>
     </div>
   );

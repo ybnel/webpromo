@@ -1,13 +1,13 @@
 import React from 'react';
 import './Header.css';
 
-const Header = ({ currentLocation, onLocationChange, dynamicLocations = ['All Locations'] }) => {
+const Header = ({ currentLocation, onLocationChange, dynamicLocations = ['All Locations'], onLogoClick }) => {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="brand">
-          <span className="brand-logo">🏷️</span>
-          <h1>WebPromo</h1>
+        <div className="brand" onClick={onLogoClick} style={{ cursor: 'pointer' }}>
+          <img src="/logo.png" alt="EdukaPromo Logo" className="brand-logo" />
+          <h1>EdukaPromo</h1>
         </div>
         
         <div className="location-selector">

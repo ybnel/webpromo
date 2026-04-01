@@ -24,8 +24,11 @@
 }
 
 .brand-logo {
-  font-size: 1.5rem;
-  animation: float 3s ease-in-out infinite;
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .brand h1 {

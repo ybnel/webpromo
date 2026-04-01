@@ -151,6 +151,7 @@ function App() {
         currentLocation={currentLocation} 
         onLocationChange={setCurrentLocation} 
         dynamicLocations={locationsList}
+        onLogoClick={handleBackToHome}
       />
       
       <main className="main-content">
