@@ -1,0 +1,125 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.popup-content {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: scaleUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.popup-close:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.popup-image-container {
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio initially */
+  position: relative;
+  background: #f3f4f6;
+}
+
+.popup-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popup-details {
+  padding: 24px;
+  text-align: center;
+  background: white;
+  border-top: 1px solid #f1f5f9;
+}
+
+.popup-details h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.popup-details p {
+  margin: 0 0 20px 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.popup-action {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+}
+
+.popup-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.4);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}

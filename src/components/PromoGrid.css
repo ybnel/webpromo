@@ -1,0 +1,51 @@
+.promo-grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
+  padding: 1rem;
+  padding-bottom: 2rem; /* For box shadow hover effect */
+  max-width: 1200px;
+  margin: 0 auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.promo-grid::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+@media (min-width: 640px) {
+  .promo-grid {
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #64748b;
+  font-size: 1rem;
+}
