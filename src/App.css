@@ -47,3 +47,39 @@
     font-size: 1rem;
   }
 }
+
+.promo-tabs-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+.promo-tabs {
+  display: flex;
+  background-color: #e2e8f0;
+  border-radius: 99px;
+  padding: 4px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 99px;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tab-btn.active {
+  background-color: #ffffff;
+  color: #3b82f6; /* Matching theme active color */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}

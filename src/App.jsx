@@ -16,6 +16,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [locationsList, setLocationsList] = useState(['All Locations']);
   const [hasInitialPopupShown, setHasInitialPopupShown] = useState(false);
+  const [activeTab, setActiveTab] = useState('New Student'); // Default tab
 
   // 1. Fetch data from Google Sheets source on mount
   useEffect(() => {
@@ -54,11 +55,16 @@ function App() {
         || (Array.isArray(promo.location) && promo.location.includes('All Locations'))
         || (Array.isArray(promo.location) && promo.location.includes(currentLocation));
 
-      return isStarted && isNotExpired && locationMatch;
+      // Kategori Match Logic
+      const pKat = promo.kategori ? promo.kategori.toLowerCase() : '';
+      const isBoth = pKat.includes('kedua') || pKat.includes('all') || pKat === '';
+      const tabMatch = isBoth || pKat.includes(activeTab.toLowerCase().replace(' student', ''));
+
+      return isStarted && isNotExpired && locationMatch && tabMatch;
     }).sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime());
 
     setFilteredPromos(activePromos);
-  }, [currentLocation, allPromos]);
+  }, [currentLocation, allPromos, activeTab]);
 
   // 3. Geolocation automation (Silently auto-select location)
   useEffect(() => {
@@ -162,6 +168,23 @@ function App() {
             <div className="section-title">
               <h2>Active Promotions</h2>
               <p>Current active promotions available for customers.</p>
+            </div>
+            
+            <div className="promo-tabs-container">
+              <div className="promo-tabs">
+                <button 
+                  className={`tab-btn ${activeTab === 'New Student' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('New Student')}
+                >
+                  New Student
+                </button>
+                <button 
+                  className={`tab-btn ${activeTab === 'Retention Student' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('Retention Student')}
+                >
+                  Retention Student
+                </button>
+              </div>
             </div>
             
             {isLoading ? (
