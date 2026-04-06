@@ -47,19 +47,16 @@
 
 .promo-detail-image-wrapper img {
   width: 100%;
-  height: auto;
-  max-height: 400px;
+  height: 200px; /* Reduced height to save space and avoid scrolling */
   object-fit: cover;
   display: block;
 }
 
-.detail-tags {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
+.detail-tags-moved {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .detail-badge {
@@ -74,6 +71,20 @@
 
 .detail-badge.validity {
   background: rgba(220, 38, 38, 0.9);
+}
+
+.detail-badge-absolute {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(220, 38, 38, 0.9);
+  backdrop-filter: blur(4px);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .promo-detail-info {
