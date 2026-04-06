@@ -8,10 +8,6 @@ const PromoDetail = ({ promo, onBack }) => {
 
   return (
     <div className="promo-detail-container">
-      <button className="back-button" onClick={onBack}>
-        ← Back
-      </button>
-
       <div className="promo-detail-content">
         <div className="promo-detail-image-wrapper">
           <img src={promo.imageUrl} alt={promo.title} />
