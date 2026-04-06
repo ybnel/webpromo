@@ -11,15 +11,15 @@ const PromoDetail = ({ promo, onBack }) => {
       <div className="promo-detail-content">
         <div className="promo-detail-image-wrapper">
           <img src={promo.imageUrl} alt={promo.title} />
+          <span className="detail-badge-absolute location">
+            📍 {Array.isArray(promo.location) ? promo.location.join(', ') : promo.location}
+          </span>
           <span className="detail-badge-absolute validity">
             Valid until {endDate.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
           </span>
         </div>
 
         <div className="promo-detail-info">
-          <div className="detail-tags-moved">
-            <span className="detail-badge location">📍 {Array.isArray(promo.location) ? promo.location.join(', ') : promo.location}</span>
-          </div>
           <h1>{promo.title}</h1>
           <p className="detail-description">{promo.description}</p>
 
