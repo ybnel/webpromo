@@ -8,7 +8,6 @@ const PromoGrid = ({ promos, onPromoClick }) => {
       <div className="empty-state">
         <div className="empty-icon">😔</div>
         <h2>No Active Promos</h2>
-        <p>Try changing your location or check back later.</p>
       </div>
     );
   }

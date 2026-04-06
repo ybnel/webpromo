@@ -1,5 +1,4 @@
 import Papa from 'papaparse';
-import { mockPromos } from './mockPromos';
 
 // Jika Anda sudah memiliki link CSV dari Google Sheets (Publish to Web), 
 // ganti string kosong ini dengan link tersebut,
@@ -78,7 +77,7 @@ export const fetchPromosFromSheet = () => {
               termsAndConditions: getVal('termsandconditions') 
                 ? getVal('termsandconditions').split('\n').map(t => t.trim()).filter(t => t.length > 0)
                 : [],
-              kategori: getVal('kategori') || 'Keduanya',
+              kategori: getVal('category') || getVal('kategori') || 'Keduanya',
               contoh: getVal('contoh') || ''
             };
           }).filter(promo => {
