@@ -78,6 +78,7 @@ export const fetchPromosFromSheet = () => {
                 ? getVal('termsandconditions').split('\n').map(t => t.trim()).filter(t => t.length > 0)
                 : [],
               kategori: getVal('category') || getVal('kategori') || 'Keduanya',
+              prioritas: String(getVal('prioritas')).toUpperCase() === 'TRUE' ? 1 : 999,
               contoh: getVal('contoh') || ''
             };
           }).filter(promo => {
