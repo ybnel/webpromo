@@ -6,6 +6,19 @@ const PromoDetail = ({ promo, onBack }) => {
 
   const endDate = new Date(promo.endDate);
 
+  // Kumpulkan semua note yang tersedia
+  const notesRaw = [promo.note1, promo.note2, promo.note3].filter(n => n && typeof n === 'string' && n.trim().length > 0);
+
+  // Fungsi untuk mem-parse `**kata**` menjadi bold/strong
+  const renderTextWithBold = (text) => {
+    // 1. Amankan tag HTML agar mencegah XSS
+    const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // 2. Ganti **kata** menjadi <strong>kata</strong>
+    const htmlText = safeText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    return <span dangerouslySetInnerHTML={{ __html: htmlText }} />;
+  };
+
   return (
     <div className="promo-detail-container">
       <div className="promo-detail-content">
@@ -23,31 +36,31 @@ const PromoDetail = ({ promo, onBack }) => {
           <h1>{promo.title}</h1>
           <p className="detail-description">{promo.description}</p>
 
-          <div className="tnc-section">
-            <h3>Terms and Conditions</h3>
-            {promo.termsAndConditions && promo.termsAndConditions.length > 0 ? (
-              <ul>
-                {promo.termsAndConditions.map((tnc, index) => (
-                  <li key={index}>{tnc}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No specific terms and conditions.</p>
-            )}
-          </div>
+          {notesRaw.map((noteText, idx) => {
+            const lines = noteText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            if (lines.length === 0) return null;
+            
+            const itemTitle = lines[0];
+            const itemContent = lines.slice(1).join('\n');
+            const isAlternate = idx % 2 !== 0; // Untuk membedakan warna antar box jika ada banyak
 
-          {promo.contoh && (
-            <div className="tnc-section" style={{ backgroundColor: '#fdf8f6', borderColor: '#fed7aa' }}>
-              <h3>How It Works / Example</h3>
-              <p style={{ marginTop: '0.75rem', lineHeight: '1.6', color: '#475569' }}>
-                {promo.contoh.split('\n').map((line, i) => (
-                  <React.Fragment key={i}>
-                    {line}
-                    <br />
-                  </React.Fragment>
-                ))}
-              </p>
-            </div>
+            return (
+              <div key={idx} className="tnc-section" style={isAlternate ? { backgroundColor: '#fdf8f6', borderColor: '#fed7aa' } : {}}>
+                <h3>{itemTitle}</h3>
+                {itemContent && (
+                  <p style={{ marginTop: '0.75rem', lineHeight: '1.6', color: '#475569', whiteSpace: 'pre-wrap' }}>
+                    {renderTextWithBold(itemContent)}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+
+          {notesRaw.length === 0 && (
+             <div className="tnc-section">
+                <h3>Informasi</h3>
+                <p>Tidak ada informasi tambahan.</p>
+             </div>
           )}
 
           <div className="action-section">

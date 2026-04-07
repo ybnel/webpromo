@@ -73,13 +73,12 @@ export const fetchPromosFromSheet = () => {
                 : ['All Locations'],
               startDate: parseDateDDMMYYYY(getVal('startdate')),
               endDate: parseDateDDMMYYYY(endDateString),
-              // Kolom termsAndConditions mungkin dipisah dengan baris baru (Enter) di Excel
-              termsAndConditions: getVal('termsandconditions') 
-                ? getVal('termsandconditions').split('\n').map(t => t.trim()).filter(t => t.length > 0)
-                : [],
+              // Kolom notes (dinamis), fallback ke nama lama
+              note1: getVal('note1') || getVal('Note1') || '',
+              note2: getVal('note2') || getVal('Note2') || '',
+              note3: getVal('note3') || getVal('Additional_notes') || '',
               kategori: getVal('category') || getVal('kategori') || 'Keduanya',
-              prioritas: String(getVal('prioritas')).toUpperCase() === 'TRUE' ? 1 : 999,
-              contoh: getVal('contoh') || ''
+              prioritas: String(getVal('prioritas')).toUpperCase() === 'TRUE' ? 1 : 999
             };
           }).filter(promo => {
             const promoId = String(promo.id);

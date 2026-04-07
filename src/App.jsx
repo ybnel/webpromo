@@ -9,14 +9,14 @@ import './App.css';
 function App() {
   const [currentLocation, setCurrentLocation] = useState('All Locations');
   const [filteredPromos, setFilteredPromos] = useState([]);
-  const [allPromos, setAllPromos] = useState([]); // Store all fetched promos
+  const [allPromos, setAllPromos] = useState([]); 
   const [showPopup, setShowPopup] = useState(false);
   const [popupPromo, setPopupPromo] = useState(null);
   const [selectedPromo, setSelectedPromo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [locationsList, setLocationsList] = useState(['All Locations']);
   const [hasInitialPopupShown, setHasInitialPopupShown] = useState(false);
-  const [activeTab, setActiveTab] = useState('New Student'); // Default tab
+  const [activeTab, setActiveTab] = useState('New Student'); 
 
   // 1. Fetch data from Google Sheets source on mount
   useEffect(() => {
@@ -151,8 +151,6 @@ function App() {
 
   const handleBackToHome = () => setSelectedPromo(null);
 
-  // Re-use Header but pass dynamic locations
-  // We need to pass the list to Header since it was statically imported before
   return (
     <div className="app-container">
       <Header 
