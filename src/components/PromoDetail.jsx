@@ -64,6 +64,16 @@ const PromoDetail = ({ promo, onBack }) => {
           )}
 
           <div className="action-section">
+            {promo.linkKompetisi && (
+              <a 
+                href={promo.linkKompetisi} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="kompetisi-button"
+              >
+                Info Kompetisi
+              </a>
+            )}
             <button className="use-promo-button" onClick={onBack}>Back to Promos</button>
           </div>
         </div>

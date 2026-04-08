@@ -144,7 +144,46 @@
 
 .action-section {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .action-section {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.kompetisi-button {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 1rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kompetisi-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+}
+
+@media (min-width: 640px) {
+  .kompetisi-button {
+    width: auto;
+  }
 }
 
 .use-promo-button {

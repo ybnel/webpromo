@@ -78,7 +78,8 @@ export const fetchPromosFromSheet = () => {
               note2: getVal('note2') || getVal('Note2') || '',
               note3: getVal('note3') || getVal('Additional_note') || '',
               kategori: getVal('category') || getVal('kategori') || 'Keduanya',
-              prioritas: String(getVal('prioritas') || getVal('Checkbox untuk Pop up')).toUpperCase() === 'TRUE' ? 1 : 999
+              prioritas: String(getVal('prioritas') || getVal('Checkbox untuk Pop up')).toUpperCase() === 'TRUE' ? 1 : 999,
+              linkKompetisi: getVal('link_kompetisi') || ''
             };
           }).filter(promo => {
             const promoId = String(promo.id);
