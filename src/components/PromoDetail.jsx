@@ -71,7 +71,7 @@ const PromoDetail = ({ promo, onBack }) => {
                 rel="noopener noreferrer" 
                 className="kompetisi-button"
               >
-                Info Kompetisi
+                More Information
               </a>
             )}
             <button className="use-promo-button" onClick={onBack}>Back to Promos</button>

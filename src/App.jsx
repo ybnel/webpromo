@@ -4,6 +4,7 @@ import PromoGrid from './components/PromoGrid';
 import Popup from './components/Popup';
 import PromoDetail from './components/PromoDetail';
 import { fetchPromosFromSheet } from './data/sheetService';
+import CitySelector from './components/CitySelector';
 import './App.css';
 
 function App() {
@@ -17,31 +18,47 @@ function App() {
   const [locationsList, setLocationsList] = useState(['All Locations']);
   const [hasInitialPopupShown, setHasInitialPopupShown] = useState(false);
   const [activeTab, setActiveTab] = useState('New Student'); 
-
-  // 1. Fetch data from Google Sheets source on mount
+  const [selectingGroup, setSelectingGroup] = useState(null);
+  // 1. Fetch data from Google Sheets source on mount & background polling
   useEffect(() => {
-    setIsLoading(true);
-    fetchPromosFromSheet()
-      .then(data => {
-        setAllPromos(data);
-        setIsLoading(false);
-        
-        // Build dynamic locations list (e.g., from CSV column "location")
-        const uniqueLocs = new Set();
-        data.forEach(p => {
-          if (Array.isArray(p.location)) {
-            p.location.forEach(loc => uniqueLocs.add(loc));
-          }
+    const loadData = () => {
+      fetchPromosFromSheet()
+        .then(data => {
+          setAllPromos(data);
+          setIsLoading(false);
+          
+          // Build dynamic locations list
+          const uniqueLocs = new Set();
+          data.forEach(p => {
+            if (Array.isArray(p.location)) {
+              p.location.forEach(loc => uniqueLocs.add(loc));
+            }
+          });
+          uniqueLocs.delete('All Locations');
+          const newLocs = ['All Locations', ...Array.from(uniqueLocs)];
+          
+          setLocationsList(prev => {
+            if (JSON.stringify(prev) !== JSON.stringify(newLocs)) {
+              return newLocs;
+            }
+            return prev;
+          });
+        })
+        .catch(err => {
+          console.error("Gagal mendownload data dari URL Sheets", err);
+          setIsLoading(false);
         });
-        uniqueLocs.delete('All Locations');
-        setLocationsList(['All Locations', ...Array.from(uniqueLocs)]);
-      })
-      .catch(err => {
-        console.error("Gagal mendownload data dari URL Sheets", err);
-        setIsLoading(false);
-      });
-  }, []);
+    };
 
+    // Initial load
+    setIsLoading(true);
+    loadData();
+
+    // Set interval for 2 seconds polling
+    const interval = setInterval(loadData, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
   // 2. Filter the UI whenever data is updated or region changes
   useEffect(() => {
     if (allPromos.length === 0) return;
@@ -70,8 +87,46 @@ function App() {
       return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
     });
 
-    setFilteredPromos(activePromos);
-  }, [currentLocation, allPromos, activeTab]);
+    let displayPromos = activePromos;
+
+    if (currentLocation === 'All Locations') {
+      const groups = {};
+      activePromos.forEach(p => {
+        if (!groups[p.title]) {
+          groups[p.title] = { 
+            ...p, 
+            id: `group-${p.title.replace(/\s+/g, '-').toLowerCase()}`,
+            isGrouped: true, 
+            items: [p] 
+          };
+        } else {
+          groups[p.title].items.push(p);
+        }
+      });
+      
+      displayPromos = Object.values(groups).map(group => {
+        const allCitiesInGroup = new Set();
+        let hasAllLocations = false;
+        
+        group.items.forEach(item => {
+          if (Array.isArray(item.location)) {
+            item.location.forEach(loc => {
+              if (loc === 'All Locations') hasAllLocations = true;
+              else allCitiesInGroup.add(loc);
+            });
+          }
+        });
+        
+        const availableCities = hasAllLocations 
+          ? locationsList.filter(l => l !== 'All Locations') 
+          : Array.from(allCitiesInGroup).sort();
+          
+        return { ...group, availableCities };
+      });
+    }
+
+    setFilteredPromos(displayPromos);
+  }, [currentLocation, allPromos, activeTab, locationsList]);
 
   // 3. Geolocation automation (Silently auto-select location)
   useEffect(() => {
@@ -145,11 +200,32 @@ function App() {
   const handleClosePopup = () => setShowPopup(false);
 
   const handlePromoClick = (promo) => {
+    if (currentLocation === 'All Locations' && promo.isGrouped) {
+      setSelectingGroup(promo);
+      return;
+    }
     setSelectedPromo(promo);
     setShowPopup(false); 
   };
 
-  const handleBackToHome = () => setSelectedPromo(null);
+  const handleCitySelect = (group, city) => {
+    // Find the best matching promo item for this city
+    const matchedPromo = group.items.find(item => 
+      (Array.isArray(item.location) && item.location.includes(city)) || 
+      (Array.isArray(item.location) && item.location.includes('All Locations')) ||
+      item.location === city ||
+      item.location === 'All Locations'
+    ) || group.items[0]; // fallback to first item
+
+    setSelectedPromo(matchedPromo);
+    setSelectingGroup(null);
+    setShowPopup(false);
+  };
+
+  const handleBackToHome = () => {
+    setSelectedPromo(null);
+    setSelectingGroup(null);
+  };
 
   return (
     <div className="app-container">
@@ -200,6 +276,14 @@ function App() {
 
       {showPopup && !selectedPromo && popupPromo && (
         <Popup promo={popupPromo} onClose={handleClosePopup} onPromoClick={handlePromoClick} />
+      )}
+
+      {selectingGroup && (
+        <CitySelector 
+          group={selectingGroup} 
+          onCitySelect={handleCitySelect} 
+          onClose={() => setSelectingGroup(null)} 
+        />
       )}
     </div>
   );

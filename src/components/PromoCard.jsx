@@ -13,7 +13,12 @@ const PromoCard = ({ promo, onClick }) => {
     <div className="promo-card" onClick={onClick}>
       <div className="promo-image-wrapper">
         <img src={promo.imageUrl} alt={promo.title} loading="lazy" />
-        <div className="promo-location-badge">📍 {Array.isArray(promo.location) ? promo.location.join(', ') : promo.location}</div>
+        <div className="promo-location-badge">
+          📍 {promo.isGrouped 
+            ? `${promo.availableCities.length} Lokasi Tersedia` 
+            : (Array.isArray(promo.location) ? promo.location.join(', ') : promo.location)
+          }
+        </div>
         {isEndingSoon && (
           <div className="promo-status-badge">Berakhir dalam {daysLeft} Hari</div>
         )}

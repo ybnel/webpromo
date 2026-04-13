@@ -84,7 +84,9 @@ export const fetchPromosFromSheet = () => {
           }).filter(promo => {
             const promoId = String(promo.id);
             const promoTitle = String(promo.title).toLowerCase();
-            return promoId !== '0' && promoId !== 'null' && promoTitle !== 'contoh' && promoTitle !== 'template';
+            // Filter: Sembunyikan jika ID kosong atau Judul mengandung kata 'contoh'/'template'
+            const isPlaceholder = promoTitle.includes('contoh') || promoTitle.includes('template');
+            return promoId !== '0' && promoId !== 'null' && !isPlaceholder;
           });
 
           // Resolve hanya dengan data dari Google Sheets
