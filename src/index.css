@@ -22,6 +22,11 @@ body {
   min-height: 100vh;
 }
 
+strong, b {
+  font-weight: 800;
+  color: #0f172a;
+}
+
 * {
   box-sizing: border-box;
 }

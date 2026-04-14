@@ -54,10 +54,7 @@ function App() {
     setIsLoading(true);
     loadData();
 
-    // Set interval for 2 seconds polling
-    const interval = setInterval(loadData, 2000);
 
-    return () => clearInterval(interval);
   }, []);
   // 2. Filter the UI whenever data is updated or region changes
   useEffect(() => {
