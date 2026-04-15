@@ -37,8 +37,13 @@ const parseDateDDMMYYYY = (dateString) => {
 export const fetchPromosFromSheet = () => {
   return new Promise((resolve, reject) => {
     // 1. Tentukan sumber: Apakah dari URL live, atau dummy string
-    const source = GOOGLE_SHEETS_CSV_URL || dummyCsvString;
-    const isUrl = Boolean(GOOGLE_SHEETS_CSV_URL); // papa parse needs to know if downloading
+    // Tambahkan timestamp (?t=) untuk menghindari cache agar data selalu fresh saat refresh
+    const useUrl = GOOGLE_SHEETS_CSV_URL 
+      ? `${GOOGLE_SHEETS_CSV_URL}${GOOGLE_SHEETS_CSV_URL.includes('?') ? '&' : '?'}t=${new Date().getTime()}` 
+      : null;
+      
+    const source = useUrl || dummyCsvString;
+    const isUrl = Boolean(useUrl); // papa parse needs to know if downloading
 
     Papa.parse(source, {
       download: isUrl,

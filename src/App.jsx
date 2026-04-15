@@ -194,7 +194,7 @@ function App() {
     }
   }, [isLoading, allPromos, currentLocation, hasInitialPopupShown]);
 
-  const handleClosePopup = () => setShowPopup(false);
+  const handleClosePopup = () => setShowPopup(false)
 
   const handlePromoClick = (promo) => {
     if (currentLocation === 'All Locations' && promo.isGrouped) {
@@ -231,6 +231,7 @@ function App() {
         onLocationChange={setCurrentLocation} 
         dynamicLocations={locationsList}
         onLogoClick={handleBackToHome}
+        activeCategory={activeTab}
       />
       
       <main className="main-content">

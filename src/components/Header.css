@@ -11,28 +11,44 @@
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1rem; /* Reduced padding on mobile */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem; /* Base gap */
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding: 1rem 1.5rem;
+    gap: 1.5rem;
+  }
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  flex-shrink: 0; /* Don't squash the brand */
 }
 
 .brand-logo {
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 28px;
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+@media (min-width: 640px) {
+  .brand-logo {
+    height: 32px;
+    width: 32px;
+  }
+}
+
 .brand h1 {
-  font-size: 1.25rem;
+  font-size: 1.1rem; /* Smaller on mobile */
   font-weight: 800;
   background: linear-gradient(135deg, #1e293b, #3b82f6);
   -webkit-background-clip: text;
@@ -40,6 +56,12 @@
   -webkit-text-fill-color: transparent;
   margin: 0;
   letter-spacing: -0.5px;
+}
+
+@media (min-width: 640px) {
+  .brand h1 {
+    font-size: 1.25rem;
+  }
 }
 
 .location-selector {
@@ -98,6 +120,37 @@
   transform: translateY(-50%);
   pointer-events: none;
   color: #64748b;
+}
+
+.category-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px; /* Pill shape */
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (min-width: 640px) {
+  .category-badge {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+.category-badge.new {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.category-badge.retention {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
 }
 
 @keyframes float {

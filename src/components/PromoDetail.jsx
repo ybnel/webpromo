@@ -24,28 +24,8 @@ const PromoDetail = ({ promo, onBack }) => {
     return <span dangerouslySetInnerHTML={{ __html: htmlText }} />;
   };
 
-  const isRetention = promo.kategori === 'Retention Student';
-  
-  const labelStyle = isRetention 
-    ? { backgroundColor: '#fff7ed', color: '#c2410c', border: '1px solid #fed7aa' } // Orange theme
-    : { backgroundColor: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe' }; // Blue theme
-    
-  const finalLabelStyle = {
-    padding: '0.6rem 1.25rem',
-    borderRadius: '12px',
-    display: 'inline-block',
-    fontWeight: '700',
-    fontSize: '0.95rem',
-    ...labelStyle
-  };
-
   return (
     <div className="promo-detail-container">
-      <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-        <div style={finalLabelStyle}>
-          🏷️ Promo Khusus {promo.kategori === 'Keduanya' ? 'Semua Kategori' : promo.kategori}
-        </div>
-      </div>
       <div className="promo-detail-content">
         <div className="promo-detail-image-wrapper">
           <img src={promo.imageUrl} alt={promo.title} />
