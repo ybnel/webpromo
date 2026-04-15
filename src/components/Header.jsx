@@ -10,7 +10,7 @@ const Header = ({ currentLocation, onLocationChange, dynamicLocations = ['All Lo
       <div className="header-container">
         <div className="brand" onClick={onLogoClick} style={{ cursor: 'pointer' }}>
           <img src="/logo.png" alt="EdukaPromo Logo" className="brand-logo" />
-          <h1>EdukaPromo</h1>
+          <h1>Eduka Info</h1>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

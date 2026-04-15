@@ -158,41 +158,41 @@ function App() {
   }, [locationsList]);
 
   // 4. Trigger localized popup after data is loaded and location is likely detected
-  useEffect(() => {
-    if (!isLoading && allPromos.length > 0 && !hasInitialPopupShown) {
-      // Small delay to allow geolocation to potentially update currentLocation first
-      const timer = setTimeout(() => {
-        const now = new Date();
-        const locString = currentLocation;
-        
-        // Filter: Get all active promos valid for THIS specific city (including "All Locations")
-        const activeCityPromos = allPromos.filter(promo => {
-          const isStarted = new Date(promo.startDate) <= now;
-          const isNotExpired = new Date(promo.endDate) >= now;
-          const isLocMatch = (Array.isArray(promo.location) && promo.location.includes(locString)) || 
-                             promo.location === locString || 
-                             (Array.isArray(promo.location) && promo.location.includes('All Locations')) ||
-                             promo.location === 'All Locations';
-          return isStarted && isNotExpired && isLocMatch;
-        }).sort((a, b) => {
-          // 1. Sort by Priority (Manual Priority)
-          if (a.prioritas !== b.prioritas) {
-            return a.prioritas - b.prioritas;
-          }
-          // 2. Sort by Expiry Date (Ending Soonest)
-          return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
-        });
-
-        if (activeCityPromos.length > 0) {
-          setPopupPromo(activeCityPromos[0]); // Take the top priority card for THIS city
-          setShowPopup(true);
-          setHasInitialPopupShown(true);
-        }
-      }, 1500); // 1.5 seconds wait for initial location discovery
-
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading, allPromos, currentLocation, hasInitialPopupShown]);
+  // useEffect(() => {
+  //   if (!isLoading && allPromos.length > 0 && !hasInitialPopupShown) {
+  //     // Small delay to allow geolocation to potentially update currentLocation first
+  //     const timer = setTimeout(() => {
+  //       const now = new Date();
+  //       const locString = currentLocation;
+  //       
+  //       // Filter: Get all active promos valid for THIS specific city (including "All Locations")
+  //       const activeCityPromos = allPromos.filter(promo => {
+  //         const isStarted = new Date(promo.startDate) <= now;
+  //         const isNotExpired = new Date(promo.endDate) >= now;
+  //         const isLocMatch = (Array.isArray(promo.location) && promo.location.includes(locString)) || 
+  //                            promo.location === locString || 
+  //                            (Array.isArray(promo.location) && promo.location.includes('All Locations')) ||
+  //                            promo.location === 'All Locations';
+  //         return isStarted && isNotExpired && isLocMatch;
+  //       }).sort((a, b) => {
+  //         // 1. Sort by Priority (Manual Priority)
+  //         if (a.prioritas !== b.prioritas) {
+  //           return a.prioritas - b.prioritas;
+  //         }
+  //         // 2. Sort by Expiry Date (Ending Soonest)
+  //         return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
+  //       });
+  //
+  //       if (activeCityPromos.length > 0) {
+  //         setPopupPromo(activeCityPromos[0]); // Take the top priority card for THIS city
+  //         setShowPopup(true);
+  //         setHasInitialPopupShown(true);
+  //       }
+  //     }, 1500); // 1.5 seconds wait for initial location discovery
+  //
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isLoading, allPromos, currentLocation, hasInitialPopupShown]);
 
   const handleClosePopup = () => setShowPopup(false)
 
