@@ -104,7 +104,7 @@ const PromoDetail = ({ promo, onBack }) => {
           )}
 
           <div className="action-section" style={{ marginTop: '2rem' }}>
-            <button className="use-promo-button" onClick={onBack}>Back to Promos</button>
+            <button className="use-promo-button" onClick={onBack}>Back to Promo</button>
           </div>
         </div>
       </div>
