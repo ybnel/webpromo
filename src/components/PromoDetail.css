@@ -157,32 +157,77 @@
 }
 
 .kompetisi-button {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
   color: white;
   border: none;
-  border-radius: 9999px;
-  padding: 1rem 3rem;
-  font-size: 1.125rem;
+  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   width: 100%;
-  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
   text-align: center;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .kompetisi-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+}
+
+/* Color 0: Pink (Brand) */
+.kompetisi-button.color-0 {
+  background: linear-gradient(135deg, #FF52A8, #FF329B);
+  box-shadow: 0 4px 6px -1px rgba(255, 50, 155, 0.3);
+}
+.kompetisi-button.color-0:hover {
+  background: linear-gradient(135deg, #FF70B8, #FF52A8);
+  box-shadow: 0 10px 15px -3px rgba(255, 50, 155, 0.4);
+}
+
+/* Color 1: Orange/Yellow (Brand) */
+.kompetisi-button.color-1 {
+  background: linear-gradient(135deg, #FFCC00, #EBAB45);
+  box-shadow: 0 4px 6px -1px rgba(235, 171, 69, 0.3);
+}
+.kompetisi-button.color-1:hover {
+  background: linear-gradient(135deg, #FFD633, #F2B526);
+  box-shadow: 0 10px 15px -3px rgba(235, 171, 69, 0.4);
+}
+
+/* Color 2: Green */
+.kompetisi-button.color-2 {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+}
+.kompetisi-button.color-2:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+}
+
+/* Color 3: Blue */
+.kompetisi-button.color-3 {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+.kompetisi-button.color-3:hover {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+}
+
+.kompetisi-button strong {
+  color: #fff;
+  text-decoration: underline;
+  margin: 0 4px;
 }
 
 @media (min-width: 640px) {
   .kompetisi-button {
-    width: auto;
+    width: 100%;
   }
 }
 

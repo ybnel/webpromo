@@ -55,22 +55,23 @@ const PromoDetail = ({ promo, onBack }) => {
               }
 
               return (
-                <div key={idx} className="tnc-section" style={isAlternate ? { backgroundColor: '#fdf8f6', borderColor: '#fed7aa' } : {}}>
+                <div key={idx} style={{ marginBottom: '2.5rem' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {pairs.map((pair, pIdx) => (
                       <div key={pIdx}>
-                        <p style={{ lineHeight: '1.6', color: '#1e293b', whiteSpace: 'pre-wrap', fontWeight: '600', marginBottom: pair.url ? '1.25rem' : '0' }}>
-                          {renderTextWithBold(pair.text)}
-                        </p>
-                        {pair.url && (
+                        {pair.url ? (
                           <a 
                             href={pair.url} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="kompetisi-button"
+                            className={`kompetisi-button color-${pIdx % 4}`}
                           >
-                            More Info
+                            {renderTextWithBold(pair.text)}
                           </a>
+                        ) : (
+                          <p style={{ lineHeight: '1.6', color: '#1e293b', whiteSpace: 'pre-wrap', fontWeight: '600' }}>
+                            {renderTextWithBold(pair.text)}
+                          </p>
                         )}
                       </div>
                     ))}
