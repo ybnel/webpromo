@@ -13,11 +13,11 @@ const PromoCard = ({ promo, onClick }) => {
     // 1. Jalankan fungsi bawaan untuk membuka popup
     if (onClick) onClick(); 
     
-    // 2. Kirim analitik berupa penambahan angka views ke Google Sheets 
-    // Menggunakan URL Web App Google Apps Script Anda (Typo huruf kapital 'I' dan kecil 'l' sudah diperbaiki):
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzKFkflkBRgXGKsCowxpjbEDc4_SNB29IEqGKgrpMpydHvcYDdDx9B27trVAlDzQOKh/exec'; 
-    // Tambahkan parameter title dari promo yang di-klik ke dalam URL
-    const hitUrl = `${scriptUrl}?title=${encodeURIComponent(promo.title)}`;
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyY1pcKze3S0yN428x1edfykD2urJGtnSg9zvJTVeRfui0ZsHMLtbpzvCqqBvTclTwb/exec'; 
+    const locationStr = promo.isGrouped ? 'All Locations' : (Array.isArray(promo.location) ? promo.location[0] : promo.location);
+
+    // Tambahkan parameter title dan location ke dalam URL
+    const hitUrl = `${scriptUrl}?title=${encodeURIComponent(promo.title)}&location=${encodeURIComponent(locationStr)}`;
     
     // "no-cors" digunakan supaya request tidak diblokir oleh sistem keamanan browser (CORS)
     fetch(hitUrl, { mode: 'no-cors' }).catch((err) => {
