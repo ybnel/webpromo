@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import PromoGrid from './components/PromoGrid';
-import Popup from './components/Popup';
 import PromoDetail from './components/PromoDetail';
 import { fetchPromosFromSheet } from './data/sheetService';
 import CitySelector from './components/CitySelector';
@@ -11,12 +10,9 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState('All Locations');
   const [filteredPromos, setFilteredPromos] = useState([]);
   const [allPromos, setAllPromos] = useState([]); 
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupPromo, setPopupPromo] = useState(null);
   const [selectedPromo, setSelectedPromo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [locationsList, setLocationsList] = useState(['All Locations']);
-  const [hasInitialPopupShown, setHasInitialPopupShown] = useState(false);
   const [activeTab, setActiveTab] = useState('New Student'); 
   const [selectingGroup, setSelectingGroup] = useState(null);
   // 1. Fetch data from Google Sheets source on mount & background polling
@@ -60,10 +56,13 @@ function App() {
   useEffect(() => {
     if (allPromos.length === 0) return;
 
-    const now = new Date();
+    // Selalu gunakan zona waktu WIB (GMT+7) untuk komparasi tanggal
+    const nowStr = new Date().toLocaleString("en-US", {timeZone: "Asia/Jakarta"});
+    const now = new Date(nowStr);
     const activePromos = allPromos.filter(promo => {
       const isStarted = new Date(promo.startDate) <= now;
-      const isNotExpired = new Date(promo.endDate) >= now;
+      const endOfPromoDay = new Date(new Date(promo.endDate).setHours(23, 59, 59, 999));
+      const isNotExpired = endOfPromoDay >= now;
       
       const locationMatch = currentLocation === 'All Locations' 
         || (Array.isArray(promo.location) && promo.location.includes('All Locations'))
@@ -157,52 +156,12 @@ function App() {
     }
   }, [locationsList]);
 
-  // 4. Trigger localized popup after data is loaded and location is likely detected
-  // useEffect(() => {
-  //   if (!isLoading && allPromos.length > 0 && !hasInitialPopupShown) {
-  //     // Small delay to allow geolocation to potentially update currentLocation first
-  //     const timer = setTimeout(() => {
-  //       const now = new Date();
-  //       const locString = currentLocation;
-  //       
-  //       // Filter: Get all active promos valid for THIS specific city (including "All Locations")
-  //       const activeCityPromos = allPromos.filter(promo => {
-  //         const isStarted = new Date(promo.startDate) <= now;
-  //         const isNotExpired = new Date(promo.endDate) >= now;
-  //         const isLocMatch = (Array.isArray(promo.location) && promo.location.includes(locString)) || 
-  //                            promo.location === locString || 
-  //                            (Array.isArray(promo.location) && promo.location.includes('All Locations')) ||
-  //                            promo.location === 'All Locations';
-  //         return isStarted && isNotExpired && isLocMatch;
-  //       }).sort((a, b) => {
-  //         // 1. Sort by Priority (Manual Priority)
-  //         if (a.prioritas !== b.prioritas) {
-  //           return a.prioritas - b.prioritas;
-  //         }
-  //         // 2. Sort by Expiry Date (Ending Soonest)
-  //         return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
-  //       });
-  //
-  //       if (activeCityPromos.length > 0) {
-  //         setPopupPromo(activeCityPromos[0]); // Take the top priority card for THIS city
-  //         setShowPopup(true);
-  //         setHasInitialPopupShown(true);
-  //       }
-  //     }, 1500); // 1.5 seconds wait for initial location discovery
-  //
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isLoading, allPromos, currentLocation, hasInitialPopupShown]);
-
-  const handleClosePopup = () => setShowPopup(false)
-
   const handlePromoClick = (promo) => {
     if (currentLocation === 'All Locations' && promo.isGrouped) {
       setSelectingGroup(promo);
       return;
     }
     setSelectedPromo(promo);
-    setShowPopup(false); 
   };
 
   const handleCitySelect = (group, city) => {
@@ -216,7 +175,6 @@ function App() {
 
     setSelectedPromo(matchedPromo);
     setSelectingGroup(null);
-    setShowPopup(false);
   };
 
   const handleBackToHome = () => {
@@ -271,10 +229,6 @@ function App() {
           </>
         )}
       </main>
-
-      {showPopup && !selectedPromo && popupPromo && (
-        <Popup promo={popupPromo} onClose={handleClosePopup} onPromoClick={handlePromoClick} />
-      )}
 
       {selectingGroup && (
         <CitySelector 

@@ -63,7 +63,7 @@ export const fetchPromosFromSheet = () => {
 
             const title = getVal('title') || 'Upcoming Special Promo';
             const endDateString = getVal('enddate') || '';
-            
+              
             // Membuat ID otomatis lebih stabil jika kolom ID kosong
             // Menggunakan kombinasi index, porsi judul, dan tanggal berakhir (agar unik)
             const autoId = `p-${index}-${title.substring(0,5).toLowerCase()}-${endDateString.replace(/\//g, '')}`;
@@ -78,6 +78,8 @@ export const fetchPromosFromSheet = () => {
                 : ['All Locations'],
               startDate: parseDateDDMMYYYY(getVal('startdate')),
               endDate: parseDateDDMMYYYY(endDateString),
+              rawStartDate: getVal('startdate') || '',
+              rawEndDate: endDateString || '',
               // Kolom notes (dinamis), fallback ke nama lama
               note1: getVal('note1') || getVal('Note1') || '',
               note2: getVal('note2') || getVal('Note2') || '',
@@ -90,7 +92,12 @@ export const fetchPromosFromSheet = () => {
             const promoTitle = String(promo.title).toLowerCase();
             // Filter: Sembunyikan jika ID kosong atau Judul mengandung kata 'contoh'/'template'
             const isPlaceholder = promoTitle.includes('contoh') || promoTitle.includes('template');
-            return promoId !== '0' && promoId !== 'null' && !isPlaceholder;
+            const isFallbackTitle = promo.title === 'Upcoming Special Promo';
+            
+            // Filter: Pastikan data tanggal minimal sudah diisi admin agar tidak muncul tiba-tiba saat sedang diketik
+            const isComplete = promo.rawStartDate.trim() !== '' && promo.rawEndDate.trim() !== '';
+            
+            return promoId !== '0' && promoId !== 'null' && !isPlaceholder && !isFallbackTitle && isComplete;
           });
 
           // Resolve hanya dengan data dari Google Sheets

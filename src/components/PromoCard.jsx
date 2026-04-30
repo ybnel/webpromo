@@ -25,10 +25,15 @@ const PromoCard = ({ promo, onClick }) => {
     });
   };
 
+  // Membuat URL gambar otomatis menggunakan judul promo.
+  // Jika di database/Google Sheet kolom imageUrl dikosongkan, maka otomatis pakai ini.
+  const dynamicImageUrl = `https://placehold.co/800x600/A1CDFA/000000?text=${encodeURIComponent(promo.title)}`;
+  const displayImage = promo.imageUrl ? promo.imageUrl : dynamicImageUrl;
+
   return (
     <div className="promo-card" onClick={handleCardClick}>
       <div className="promo-image-wrapper">
-        <img src={promo.imageUrl} alt={promo.title} loading="lazy" />
+        <img src={displayImage} alt={promo.title} loading="lazy" />
         <div className="promo-location-badge">
           📍 {promo.isGrouped 
             ? `${promo.availableCities.length} Lokasi Tersedia` 
@@ -47,3 +52,4 @@ const PromoCard = ({ promo, onClick }) => {
 };
 
 export default PromoCard;
+ 
