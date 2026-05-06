@@ -54,17 +54,28 @@ const PromoDetail = ({ promo, onBack }) => {
                 pairs.push({ text: lines[i], url: lines[i+1] || '' });
               }
 
+              const getColorClassByText = (text) => {
+                const lower = text.toLowerCase();
+                if (lower.includes('eduka reward') || lower.includes('eduka bonus')) return 'color-0';
+                if (lower.includes('central reward') || lower.includes('central bonus')) return 'color-1';
+                if (lower.includes('eduka competition')) return 'color-2';
+                if (lower.includes('central competition')) return 'color-3';
+                return 'color-4'; // Fallback: Dark Orange
+              };
+
               return (
                 <div key={idx} style={{ marginBottom: '2.5rem' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    {pairs.map((pair, pIdx) => (
+                    {pairs.map((pair, pIdx) => {
+                      const colorClass = getColorClassByText(pair.text, pIdx);
+                      return (
                       <div key={pIdx}>
                         {pair.url ? (
                           <a 
                             href={pair.url} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className={`kompetisi-button color-${pIdx % 4}`}
+                            className={`kompetisi-button ${colorClass}`}
                           >
                             {renderTextWithBold(pair.text)}
                           </a>
@@ -74,7 +85,7 @@ const PromoDetail = ({ promo, onBack }) => {
                           </p>
                         )}
                       </div>
-                    ))}
+                    )})}
                   </div>
                 </div>
               );

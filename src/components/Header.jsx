@@ -21,7 +21,7 @@ const Header = ({ currentLocation, onLocationChange, dynamicLocations = ['All Lo
           <div className="location-selector">
             <label htmlFor="location">Location:</label>
             <div className="select-wrapper">
-              <select 
+              <select
                 id="location" 
                 value={currentLocation} 
                 onChange={(e) => onLocationChange(e.target.value)}

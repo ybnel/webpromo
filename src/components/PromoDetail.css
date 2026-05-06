@@ -219,6 +219,16 @@
   box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
 }
 
+/* Color 4: Dark Orange (Fallback) */
+.kompetisi-button.color-4 {
+  background: linear-gradient(135deg, #d44c03, #bb4200);
+  box-shadow: 0 4px 6px -1px rgba(217, 83, 11, 0.3);
+}
+.kompetisi-button.color-4:hover {
+  background: linear-gradient(135deg, #d44c03, #bb4200);
+  box-shadow: 0 10px 15px -3px rgba(214, 77, 3, 0.4);
+}
+
 .kompetisi-button strong {
   color: #fff;
   text-decoration: underline;
