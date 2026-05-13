@@ -39,13 +39,13 @@ const CalculatorPopup = ({ onClose, calcType = 'indodana' }) => {
       <div className="calc-popup-content" onClick={(e) => e.stopPropagation()}>
         <button className="calc-popup-close" onClick={onClose}>&times;</button>
         <div className="calc-popup-header">
-          <h2>🧮 {calcType === 'indodana' ? 'Kalkulator Indodana' : 'Kalkulator Cicilan'}</h2>
-          <p>Hitung estimasi cicilan bulanan Anda</p>
+          <h2>{calcType === 'indodana' ? 'Kalkulator Indodana' : 'Kalkulator Cicilan'}</h2>
+          <p>Hitung estimasi cicilan bulanan</p>
         </div>
         
         <div className="calc-popup-body">
           <div className="calc-input-group">
-            <label>Masukkan Harga Non SS (Rp)</label>
+            <label>Masukkan Harga(Rp)</label>
             <input 
               type="text" 
               value={price ? new Intl.NumberFormat('id-ID').format(price) : ''}
