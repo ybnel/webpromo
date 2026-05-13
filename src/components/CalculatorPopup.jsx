@@ -16,7 +16,13 @@ const CalculatorPopup = ({ onClose, calcType = 'indodana' }) => {
     
     // Logika perbedaan rumus berdasarkan tipe kalkulator
     if (calcType === 'indodana') {
-      adminFee = numPrice * 0.03; // Admin 3%
+      // Admin Indodana berbeda tiap tenor (3 bln = 3%, 6 bln = 6%, 12 bln = 12%)
+      let feePercentage = 0;
+      if (tenor === 3) feePercentage = 0.03;
+      else if (tenor === 6) feePercentage = 0.06;
+      else if (tenor === 12) feePercentage = 0.12;
+      
+      adminFee = numPrice * feePercentage;
     } else if (calcType === 'bca') {
       adminFee = 0; // Contoh rumus lain: Admin 0%
     }
