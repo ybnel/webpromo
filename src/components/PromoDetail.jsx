@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PromoDetail.css';
+import CalculatorPopup from './CalculatorPopup';
 
 const PromoDetail = ({ promo, onBack }) => {
+  const [showCalc, setShowCalc] = useState(false);
+  const [calcType, setCalcType] = useState('indodana'); // Default fallback
+
   if (!promo) return null;
 
   const endDate = new Date(promo.endDate);
@@ -13,11 +17,14 @@ const PromoDetail = ({ promo, onBack }) => {
     { id: 'note3', content: promo.note3 }
   ].filter(n => n.content && typeof n.content === 'string' && n.content.trim().length > 0);
 
-  // Fungsi untuk mem-parse `**kata**` menjadi bold/strong
+  // Fungsi untuk mem-parse `**kata**` menjadi bold/strong dan menghapus keyword rahasia
   const renderTextWithBold = (text) => {
     if (!text) return '';
+    // 0. Hapus keyword rahasia dari teks agar tidak terlihat oleh pengunjung
+    const textWithoutKeyword = text.replace(/\[CALC_[A-Z0-9_]+\]/g, '').trim();
+    
     // 1. Amankan tag HTML agar mencegah XSS
-    const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const safeText = textWithoutKeyword.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     // 2. Ganti **kata** menjadi <strong>kata</strong>
     const htmlText = safeText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
@@ -111,14 +118,42 @@ const PromoDetail = ({ promo, onBack }) => {
              <div className="tnc-section">
                 <h3>Informasi</h3>
                 <p>Tidak ada informasi tambahan.</p>
-             </div>
-          )}
+             </div> 
+          )}    
 
-          <div className="action-section" style={{ marginTop: '2rem' }}>
-            <button className="use-promo-button" onClick={onBack}>Back to Promo</button>
-          </div>
+          {/* Logika Pengecekan Keyword */}
+          {(() => {
+            const allText = JSON.stringify(promo);
+            // Cek apakah ada keyword khusus di spreadsheet
+            const isIndodana = allText.includes('[CALC_INDODANA]');
+            const isBca = allText.includes('[CALC_BCA]'); // Contoh untuk masa depan
+            
+            const hasCalculator = isIndodana || isBca;
+            
+            // Tentukan tipe yang diklik
+            const handleOpenCalc = () => {
+              if (isBca) setCalcType('bca');
+              else setCalcType('indodana');
+              setShowCalc(true);
+            };
+
+            return (
+              <div className="action-section" style={{ marginTop: '2rem', display: 'flex', gap: '10px' }}>
+                <button className="use-promo-button" onClick={onBack}>Back to Promo</button>
+                {hasCalculator && (
+                  <button 
+                    className="use-promo-button calculator-btn-detail" 
+                    onClick={handleOpenCalc}
+                  >
+                    Kalkulator Indodana
+                  </button>
+                )}
+              </div>
+            );
+          })()}
         </div>
       </div>
+      {showCalc && <CalculatorPopup calcType={calcType} onClose={() => setShowCalc(false)} />}
     </div>
   );
 };

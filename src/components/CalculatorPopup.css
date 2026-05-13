@@ -1,0 +1,187 @@
+.calc-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.calc-popup-content {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  animation: calcSlideUp 0.3s ease-out;
+}
+
+@keyframes calcSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.calc-popup-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  transition: background 0.2s;
+}
+
+.calc-popup-close:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.calc-popup-header {
+  background-color: #92d050; /* Warna hijau seperti di foto */
+  padding: 24px 20px 15px;
+  border-bottom: 1px solid #7cb342;
+  text-align: center;
+}
+
+.calc-popup-header h2 {
+  margin: 0 0 5px 0;
+  font-size: 20px;
+  color: #000;
+  font-weight: 700;
+}
+
+.calc-popup-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #111;
+}
+
+.calc-popup-body {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.calc-input-group {
+  margin-bottom: 25px;
+}
+
+.calc-input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.calc-input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.calc-input-group input:focus {
+  border-color: #92d050;
+}
+
+.calc-results-table {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.calc-table-header {
+  display: flex;
+  background-color: #c4e59f;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  color: #000;
+}
+
+.calc-table-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.calc-table-row:last-child {
+  border-bottom: none;
+}
+
+.calc-col {
+  flex: 1;
+  padding: 15px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.calc-col.right {
+  justify-content: flex-end;
+  text-align: right;
+  border-left: 1px solid #eee;
+}
+
+.calc-amount {
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 18px;
+}
+
+/* Utilities untuk tombol di PromoCard & PromoDetail */
+.calculator-btn-card {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: #92d050;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.calculator-btn-card:hover {
+  background-color: #7cb342;
+}
+
+.calculator-btn-detail {
+  background: linear-gradient(135deg, #eb6217, #d9530b) !important; /* Warna Orange */
+  color: #fff !important;
+  font-weight: bold !important;
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgba(217, 83, 11, 0.3) !important;
+}
+
+.calculator-btn-detail:hover {
+  background: linear-gradient(135deg, #f97316, #ea580c) !important;
+  box-shadow: 0 10px 15px -3px rgba(217, 83, 11, 0.4) !important;
+  transform: translateY(-2px);
+}
