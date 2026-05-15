@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CalculatorPopup.css';
 
 const CalculatorPopup = ({ onClose, calcType = 'indodana' }) => {
   const [price, setPrice] = useState('');
+  const [selectedPromo, setSelectedPromo] = useState(calcType);
+
+  useEffect(() => {
+    setSelectedPromo(calcType);
+  }, [calcType]);
 
   const handlePriceChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
@@ -12,24 +17,29 @@ const CalculatorPopup = ({ onClose, calcType = 'indodana' }) => {
   const calculateInstallment = (tenor) => {
     if (!price) return 0;
     const numPrice = parseInt(price, 10);
-    let adminFee = 0;
     
     // Logika perbedaan rumus berdasarkan tipe kalkulator
-    if (calcType === 'indodana') {
-      // Admin Indodana berbeda tiap tenor (3 bln = 3%, 6 bln = 6%, 12 bln = 12%)
+    if (selectedPromo === 'indodana') {
       let feePercentage = 0;
       if (tenor === 3) feePercentage = 0.03;
       else if (tenor === 6) feePercentage = 0.06;
       else if (tenor === 12) feePercentage = 0.12;
       
-      adminFee = numPrice * feePercentage;
-    } else if (calcType === 'bca') {
-      adminFee = 0; // Contoh rumus lain: Admin 0%
+      const adminFee = numPrice * feePercentage;
+      const totalTrx = numPrice + adminFee;
+      return Math.round(totalTrx / tenor);
+    } 
+    else if (selectedPromo === 'english1discount') {
+      let discount = Math.min(numPrice * 0.05, 500000); // Diskon 5% Max 500rb
+      let netPrice = numPrice - discount;
+      let interest = netPrice * 0.03 * tenor; // Bunga 3% per bulan * tenor
+      let adminFee = netPrice * 0.01; // Admin provisi 1% flat
+      
+      const totalTrx = netPrice + interest + adminFee;
+      return Math.round(totalTrx / tenor);
     }
-    // Anda bisa tambahkan rumus lain di sini nanti
     
-    const totalTrx = numPrice + adminFee;
-    return Math.round(totalTrx / tenor);
+    return 0;
   };
 
   const formatRupiah = (number) => {
@@ -45,11 +55,23 @@ const CalculatorPopup = ({ onClose, calcType = 'indodana' }) => {
       <div className="calc-popup-content" onClick={(e) => e.stopPropagation()}>
         <button className="calc-popup-close" onClick={onClose}>&times;</button>
         <div className="calc-popup-header">
-          <h2>{calcType === 'indodana' ? 'Kalkulator Indodana' : 'Kalkulator Cicilan'}</h2>
+          <h2>Kalkulator Simulasi</h2>
           <p>Hitung estimasi cicilan bulanan</p>
         </div>
         
         <div className="calc-popup-body">
+          <div className="calc-input-group">
+            <label>Pilih Promo</label>
+            <select 
+              value={selectedPromo} 
+              onChange={(e) => setSelectedPromo(e.target.value)}
+              className="calc-select"
+            >
+              <option value="indodana">ENGLISH1INSTALL</option>
+              <option value="english1discount">ENGLISH1DISCOUNT</option>
+            </select>
+          </div>
+
           <div className="calc-input-group">
             <label>Masukkan Harga(Rp)</label>
             <input 

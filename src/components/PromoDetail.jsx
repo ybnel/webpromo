@@ -126,13 +126,15 @@ const PromoDetail = ({ promo, onBack }) => {
             const allText = JSON.stringify(promo);
             // Cek apakah ada keyword khusus di spreadsheet
             const isIndodana = allText.includes('[CALC_INDODANA]');
+            const isEnglish1Discount = allText.includes('[CALC_ENGLISH1DISCOUNT]');
             const isBca = allText.includes('[CALC_BCA]'); // Contoh untuk masa depan
             
-            const hasCalculator = isIndodana || isBca;
+            const hasCalculator = isIndodana || isBca || isEnglish1Discount;
             
             // Tentukan tipe yang diklik
             const handleOpenCalc = () => {
-              if (isBca) setCalcType('bca');
+              if (isEnglish1Discount) setCalcType('english1discount');
+              else if (isBca) setCalcType('bca');
               else setCalcType('indodana');
               setShowCalc(true);
             };
@@ -145,7 +147,7 @@ const PromoDetail = ({ promo, onBack }) => {
                     className="use-promo-button calculator-btn-detail" 
                     onClick={handleOpenCalc}
                   >
-                    Kalkulator Indodana
+                    Simulasi Cicilan
                   </button>
                 )}
               </div>

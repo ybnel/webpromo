@@ -26,7 +26,7 @@ const PromoCard = ({ promo, onClick }) => {
   };
 
   // Membuat URL gambar otomatis menggunakan judul promo.
-  // Jika di database/Google Sheet kolom imageUrl dikosongkan, maka otomatis pakai ini.
+  // Jika di database/Google Sheet kolom imageUrl dikosongkan, maka otomatis pakai ini.oke m
   const dynamicImageUrl = `https://placehold.co/800x600/A1CDFA/000000?text=${encodeURIComponent(promo.title)}`;
   const displayImage = promo.imageUrl ? promo.imageUrl : dynamicImageUrl;
 
