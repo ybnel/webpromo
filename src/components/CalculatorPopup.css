@@ -197,15 +197,15 @@
 }
 
 .calculator-btn-detail {
-  background: linear-gradient(135deg, #eb6217, #d9530b) !important; /* Warna Orange */
+  background: linear-gradient(135deg, #4b5563, #374151) !important; /* Warna Dark Gray */
   color: #fff !important;
   font-weight: bold !important;
   border: none !important;
-  box-shadow: 0 4px 6px -1px rgba(217, 83, 11, 0.3) !important;
+  box-shadow: 0 4px 6px -1px rgba(55, 65, 81, 0.3) !important;
 }
 
 .calculator-btn-detail:hover {
-  background: linear-gradient(135deg, #f97316, #ea580c) !important;
-  box-shadow: 0 10px 15px -3px rgba(217, 83, 11, 0.4) !important;
+  background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+  box-shadow: 0 10px 15px -3px rgba(55, 65, 81, 0.4) !important;
   transform: translateY(-2px);
 }
