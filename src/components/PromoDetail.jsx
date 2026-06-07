@@ -49,17 +49,28 @@ const PromoDetail = ({ promo, onBack }) => {
           <p className="detail-description">{renderTextWithBold(promo.description)}</p>
 
           {notesList.map((note, idx) => {
-            const lines = note.content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            if (lines.length === 0) return null;
-            
             const isAlternate = idx % 2 !== 0; // Untuk membedakan warna antar box jika ada banyak
 
             // KHUSUS NOTE 3: Render Pasangan Teks (Ganjil) dan Tombol Link (Genap)
             if (note.id === 'note3') {
+              const rawLines = note.content.split('\n').map(l => l.trim());
               const pairs = [];
-              for (let i = 0; i < lines.length; i += 2) {
-                pairs.push({ text: lines[i], url: lines[i+1] || '' });
+              const isUrl = (str) => /^(https?:\/\/|www\.|drive\.google\.com)/i.test(str);
+
+              for (let i = 0; i < rawLines.length; i++) {
+                const line = rawLines[i];
+                if (!line) continue; // Skip completely empty lines
+
+                if (isUrl(line)) {
+                  if (pairs.length > 0) {
+                    pairs[pairs.length - 1].url = line;
+                  }
+                } else {
+                  pairs.push({ text: line, url: '' });
+                }
               }
+
+              if (pairs.length === 0) return null;
 
               const getColorClassByText = (text) => {
                 const lower = text.toLowerCase();
@@ -74,31 +85,38 @@ const PromoDetail = ({ promo, onBack }) => {
                 <div key={idx} style={{ marginBottom: '2.5rem' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {pairs.map((pair, pIdx) => {
-                      const colorClass = getColorClassByText(pair.text, pIdx);
+                      const colorClass = getColorClassByText(pair.text);
+                      const hasUrl = Boolean(pair.url);
                       return (
-                      <div key={pIdx}>
-                        {pair.url ? (
-                          <a 
-                            href={pair.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className={`kompetisi-button ${colorClass}`}
-                          >
-                            {renderTextWithBold(pair.text)}
-                          </a>
-                        ) : (
-                          <p style={{ lineHeight: '1.6', color: '#1e293b', whiteSpace: 'pre-wrap', fontWeight: '600' }}>
-                            {renderTextWithBold(pair.text)}
-                          </p>
-                        )}
-                      </div>
-                    )})}
+                        <div key={pIdx}>
+                          {hasUrl ? (
+                            <a 
+                              href={pair.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className={`kompetisi-button ${colorClass}`}
+                            >
+                              {renderTextWithBold(pair.text)}
+                            </a>
+                          ) : (
+                            <span 
+                              className={`kompetisi-button ${colorClass} disabled-button`}
+                            >
+                              {renderTextWithBold(pair.text)}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               );
             }
 
             // NOTE 1 & 2 NORMAL
+            const lines = note.content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            if (lines.length === 0) return null;
+
             const itemTitle = lines[0];
             const itemContent = lines.slice(1).join('\n');
 

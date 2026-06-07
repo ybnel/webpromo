@@ -272,3 +272,13 @@
     width: auto;
   }
 }
+
+.kompetisi-button.disabled-button {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.kompetisi-button.disabled-button:hover {
+  transform: none;
+  box-shadow: none;
+}
