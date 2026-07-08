@@ -22,7 +22,6 @@ function App() {
         .then(data => {
           setAllPromos(data);
           setIsLoading(false);
-          
           // Build dynamic locations list
           const uniqueLocs = new Set();
           data.forEach(p => {
@@ -64,9 +63,14 @@ function App() {
       const endOfPromoDay = new Date(new Date(promo.endDate).setHours(23, 59, 59, 999));
       const isNotExpired = endOfPromoDay >= now;
       
+      const promoLocs = Array.isArray(promo.location) ? promo.location : [promo.location];
       const locationMatch = currentLocation === 'All Locations' 
-        || (Array.isArray(promo.location) && promo.location.includes('All Locations'))
-        || (Array.isArray(promo.location) && promo.location.includes(currentLocation));
+        || promoLocs.includes('All Locations')
+        || promoLocs.some(loc => {
+          const l1 = String(loc).toLowerCase().trim();
+          const l2 = currentLocation.toLowerCase().trim();
+          return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+        });
 
       // Kategori Match Logic
       const pKat = promo.kategori ? promo.kategori.toLowerCase() : '';
@@ -150,7 +154,7 @@ function App() {
           }
         },
         () => {
-          // Silent fail for location tracking
+          // Silent fail for location trackingl
         }
       );
     }
@@ -166,12 +170,16 @@ function App() {
 
   const handleCitySelect = (group, city) => {
     // Find the best matching promo item for this city
-    const matchedPromo = group.items.find(item => 
-      (Array.isArray(item.location) && item.location.includes(city)) || 
-      (Array.isArray(item.location) && item.location.includes('All Locations')) ||
-      item.location === city ||
-      item.location === 'All Locations'
-    ) || group.items[0]; // fallback to first item
+    const matchedPromo = group.items.find(item => {
+      const promoLocs = Array.isArray(item.location) ? item.location : [item.location];
+      if (promoLocs.includes('All Locations') || promoLocs.includes('all locations')) return true;
+      
+      return promoLocs.some(loc => {
+        const l1 = String(loc).toLowerCase().trim();
+        const l2 = String(city).toLowerCase().trim();
+        return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+      });
+    }) || group.items[0]; // fallback to first item
 
     setSelectedPromo(matchedPromo);
     setSelectingGroup(null);
