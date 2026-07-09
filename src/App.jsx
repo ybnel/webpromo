@@ -6,6 +6,17 @@ import { fetchPromosFromSheet } from './data/sheetService';
 import CitySelector from './components/CitySelector';
 import './App.css';
 
+const normalizeLocationName = (str) => {
+  if (!str) return '';
+  return String(str)
+    .toLowerCase()
+    .trim()
+    .replace(/\bsby\b/g, 'surabaya')
+    .replace(/\bbdg\b/g, 'bandung')
+    .replace(/\bjkt\b/g, 'jakarta')
+    .replace(/\bdps\b/g, 'denpasar');
+};
+
 function App() {
   const [currentLocation, setCurrentLocation] = useState('All Locations');
   const [filteredPromos, setFilteredPromos] = useState([]);
@@ -67,8 +78,8 @@ function App() {
       const locationMatch = currentLocation === 'All Locations' 
         || promoLocs.includes('All Locations')
         || promoLocs.some(loc => {
-          const l1 = String(loc).toLowerCase().trim();
-          const l2 = currentLocation.toLowerCase().trim();
+          const l1 = normalizeLocationName(loc);
+          const l2 = normalizeLocationName(currentLocation);
           return l1 === l2 || l1.includes(l2) || l2.includes(l1);
         });
 
@@ -141,9 +152,12 @@ function App() {
             if (data && data.address) {
               const cityStr = data.address.city || data.address.town || data.address.village || data.address.county || data.address.state || "";
               
-              const matchedLoc = locationsList.find(loc => 
-                cityStr.toLowerCase().includes(loc.toLowerCase()) && loc !== "All Locations"
-              );
+              const matchedLoc = locationsList.find(loc => {
+                if (loc === "All Locations") return false;
+                const l1 = normalizeLocationName(cityStr);
+                const l2 = normalizeLocationName(loc);
+                return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+              });
               
               if (matchedLoc) {
                 setCurrentLocation(matchedLoc);
@@ -175,8 +189,8 @@ function App() {
       if (promoLocs.includes('All Locations') || promoLocs.includes('all locations')) return true;
       
       return promoLocs.some(loc => {
-        const l1 = String(loc).toLowerCase().trim();
-        const l2 = String(city).toLowerCase().trim();
+        const l1 = normalizeLocationName(loc);
+        const l2 = normalizeLocationName(city);
         return l1 === l2 || l1.includes(l2) || l2.includes(l1);
       });
     }) || group.items[0]; // fallback to first item
