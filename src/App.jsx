@@ -80,7 +80,7 @@ function App() {
         || promoLocs.some(loc => {
           const l1 = normalizeLocationName(loc);
           const l2 = normalizeLocationName(currentLocation);
-          return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+          return l1 === l2 || l2.includes(l1);
         });
 
       // Kategori Match Logic
@@ -156,7 +156,7 @@ function App() {
                 if (loc === "All Locations") return false;
                 const l1 = normalizeLocationName(cityStr);
                 const l2 = normalizeLocationName(loc);
-                return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+                return l1 === l2 || l2.includes(l1);
               });
               
               if (matchedLoc) {
@@ -191,7 +191,7 @@ function App() {
       return promoLocs.some(loc => {
         const l1 = normalizeLocationName(loc);
         const l2 = normalizeLocationName(city);
-        return l1 === l2 || l1.includes(l2) || l2.includes(l1);
+        return l1 === l2 || l2.includes(l1);
       });
     }) || group.items[0]; // fallback to first item
 
