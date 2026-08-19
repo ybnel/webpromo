@@ -13,7 +13,7 @@ const PromoCard = ({ promo, onClick }) => {
     // 1. Jalankan fungsi bawaan untuk membuka popup
     if (onClick) onClick(); 
     
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycby-TKGn7CgTGlh1WVPla5rDrZVtMQ-es2-ExyMdWf3zwuN_lqvorE0U6UcpmEqzWFip/exec'; 
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyY1pcKze3S0yN428x1edfykD2urJGtnSg9zvJTVeRfui0ZsHMLtbpzvCqqBvTclTwb/exec'; 
     const locationStr = promo.isGrouped ? 'All Locations' : (Array.isArray(promo.location) ? promo.location[0] : promo.location);
 
     // Tambahkan parameter title dan location ke dalam URL
