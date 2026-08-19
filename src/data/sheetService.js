@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 // Jika Anda sudah memiliki link CSV dari Google Sheets (Publish to Web), 
 // ganti string kosong ini dengan link tersebut,
 // Contoh: "https://docs.google.com/spreadsheets/d/e/2PACX-1.../pub?output=csv"
-const GOOGLE_SHEETS_CSV_URL = import.meta.env.VITE_SHEETS_CSV_URL || "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdRv7-UeMEVdfGxwzvlYqWkelqts3lrl8IKiFHBdByP7nnOztoolBGNCix2m1mPyHZVkZ0xrmXE564/pub?output=csv";
+const GOOGLE_SHEETS_CSV_URL = import.meta.env.VITE_SHEETS_CSV_URL || "https://docs.google.com/spreadsheets/d/1fsOb6Ivm5AX1GbxwU1S_O-Hfvs62F1BnBgbgqazgfw8/export?format=csv&gid=0";
 
 // Jika URL belum disetel, kita akan memakai data CSV palsu untuk mendemonstrasikan hasil parsing
 const dummyCsvString = `id,title,description,imageUrl,location,startDate,endDate,termsAndConditions
